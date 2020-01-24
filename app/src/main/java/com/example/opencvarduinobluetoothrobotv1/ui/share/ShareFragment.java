@@ -1,6 +1,7 @@
 package com.example.opencvarduinobluetoothrobotv1.ui.share;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -20,10 +21,35 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.opencvarduinobluetoothrobotv1.R;
 
 import static android.content.ContentValues.TAG;
-
+import android.content.BroadcastReceiver;
+import android.bluetooth.BluetoothDevice;
 public class ShareFragment extends Fragment implements View.OnClickListener {
 
     private ShareViewModel shareViewModel;
+    private final BroadcastReceiver BroadcastReceiver1 = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            // When discovery finds a device
+            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+
+                switch(state){
+                    case BluetoothAdapter.STATE_OFF:
+                        Log.d(TAG, "onReceive: STATE OFF");
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_OFF:
+                        Log.d(TAG, "BroadcastReceiver1: STATE TURNING OFF");
+                        break;
+                    case BluetoothAdapter.STATE_ON:
+                        Log.d(TAG, "BroadcastReceiver1: STATE ON");
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_ON:
+                        Log.d(TAG, "BroadcastReceiver1: STATE TURNING ON");
+                        break;
+                }
+            }
+        }
+    };
     public BluetoothAdapter bluetoothAdapter;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,11 +63,11 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
                 textView.setText(s);
             }
         });
-        Button onButton = textView.findViewById(R.id.BlueOn);
+        Button onOffButton = textView.findViewById(R.id.BlueOn);
         Button offButton = textView.findViewById(R.id.BlueOff);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        onButton.setOnClickListener(new View.OnClickListener() {
+        onOffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 enableDisableBT();
@@ -62,7 +88,13 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
             startActivity(enableIntent);
 
             IntentFilter STfilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-            //registerReciever
+            Log.d(TAG,"blutooth is enabled");
+        }
+        if(bluetoothAdapter.isEnabled())
+        {
+            Log.d(TAG,"blutooth is disabled");
+            bluetoothAdapter.disable();
+
         }
     }
     @Override
