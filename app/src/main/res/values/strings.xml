@@ -15,4 +15,6 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Bluetooth Options</string>
     <string name="menu_send">Team Credits</string>
+    <string name="turned_on">Bluetooth is now On</string>
+    <string name = "turned_off">Bluetooth is now turned Off</string>
 </resources>
