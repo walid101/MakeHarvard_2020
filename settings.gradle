@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name='OpenCv Arduino Bluetooth Robot V.1'

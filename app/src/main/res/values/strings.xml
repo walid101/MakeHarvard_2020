@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">OpenCv Arduino Bluetooth Robot V.1</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="Controller_Title">Controller</string>
+    <string name="Blutooth_Options">BlueTooth Options</string>
+    <string name="menu_home">AutoTrack</string>
+    <string name="menu_gallery">DriveMode</string>
+    <string name="menu_slideshow">ArmMovement</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Bluetooth Options</string>
+    <string name="menu_send">Team Credits</string>
+</resources>
