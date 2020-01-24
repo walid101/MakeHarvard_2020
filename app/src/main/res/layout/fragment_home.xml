@@ -5,29 +5,36 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android">
-        <TextView
-            android:id="@+id/text_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/Controller_Title"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textColor="#009688"
-            />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_home"
         android:layout_width="388dp"
-        android:layout_height="166dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/Blu_Header"
+        android:textAlignment="center"
+        android:textColor="#009688"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/blueOps"
+        android:layout_width="388dp"
+        android:layout_height="321dp"
         android:layout_marginStart="-400dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="270dp"
         android:layout_marginEnd="80dp"
         android:text="@string/Blutooth_Options"
         android:textAlignment="center"
         android:textColor="#009688"
         android:textSize="20sp" />
 
+    <Button
+        android:id="@+id/BlueOn"
+        style="@style/TextAppearance.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200dp"
+        android:text="Turn On" />
 </LinearLayout>
