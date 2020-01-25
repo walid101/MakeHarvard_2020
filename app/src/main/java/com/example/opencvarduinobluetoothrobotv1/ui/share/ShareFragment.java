@@ -1,7 +1,6 @@
 package com.example.opencvarduinobluetoothrobotv1.ui.share;
 
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -22,12 +21,49 @@ import com.example.opencvarduinobluetoothrobotv1.R;
 import com.google.android.material.snackbar.Snackbar;
 
 import static android.content.ContentValues.TAG;
+import static android.net.wifi.p2p.WifiP2pDevice.CONNECTED;
+
 import android.content.BroadcastReceiver;
 import android.bluetooth.BluetoothDevice;
-public class ShareFragment extends Fragment implements View.OnClickListener {
+import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.UUID;
+
+public class ShareFragment extends Fragment implements View.OnClickListener
+{
+    BluetoothAdapter bluetoothAdapter;
+    private String mConnectedDeviceName = null;
+
+    /**
+     * Array adapter for the conversation thread
+     */
+    private ArrayAdapter<String> mConversationArrayAdapter;
+
+    /**
+     * String buffer for outgoing messages
+     */
+    private StringBuffer mOutStringBuffer;
+
+    private BluetoothChatService mChatService = null;
     private ShareViewModel shareViewModel;
-    public BluetoothAdapter bluetoothAdapter;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         shareViewModel = ViewModelProviders.of(this).get(ShareViewModel.class);
@@ -93,5 +129,24 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
+    }
+
+    private void sendMessage(String message) {
+        // Check that we're actually connected before trying anything
+        if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
+            Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check that there's actually something to send
+        if (message.length() > 0) {
+            // Get the message bytes and tell the BluetoothChatService to write
+            byte[] send = message.getBytes();
+            mChatService.write(send);
+
+            // Reset out string buffer to zero and clear the edit text field
+            //mOutStringBuffer.setLength(0);
+
+        }
     }
 }
