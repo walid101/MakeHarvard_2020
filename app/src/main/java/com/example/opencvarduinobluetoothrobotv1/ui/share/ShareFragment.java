@@ -2,6 +2,7 @@ package com.example.opencvarduinobluetoothrobotv1.ui.share;
 
 import android.app.ActionBar;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -131,6 +132,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+
             // Otherwise, setup the chat session
         } else if (mChatService == null) {
             setupChat();
@@ -173,6 +175,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
 
     private void sendMessage(String message) {
         // Check that we're actually connected before trying anything
+        /*
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
             //Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
             Snackbar snac = Snackbar.make(textView.findViewById(R.id.blueOps),"NOT CONNECTED TO BLUTOOTH",
@@ -181,15 +184,24 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
             return;
         }
 
+         */
+
         // Check that there's actually something to send
         if (message.length() > 0) {
             // Get the message bytes and tell the BluetoothChatService to write
             byte[] send = message.getBytes();
             mChatService.write(send);
-
+            String bytes = "";
+            for(int i = 0; i<send.length; i++)
+            {
+                bytes += send[i] + "";
+            }
             // Reset out string buffer to zero and clear the edit text field
             //mOutStringBuffer.setLength(0);
-
+            Snackbar snac = Snackbar.make(textView.findViewById(R.id.blueOps),
+                    "Sent " + message + " which is " + bytes + " in byte form ",
+                    Snackbar.LENGTH_LONG);
+            snac.show();
         }
     }
     private final Handler mHandler = new Handler() {
@@ -269,4 +281,31 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         }
         actionBar.setSubtitle(subTitle);
     }
+
+
+
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+
+            }
+            else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+
+            }
+            else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+
+            }
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
+
+            }
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+
+            }
+        }
+    };
 }
