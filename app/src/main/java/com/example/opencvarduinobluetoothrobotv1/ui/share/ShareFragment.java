@@ -99,6 +99,14 @@ public class ShareFragment extends Fragment implements View.OnClickListener
                     }
                 }
             });
+            Button blueTest = root.findViewById(R.id.BlueTest);
+            blueTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage("1");
+            }
+        });
+        //The following code is a test to see if the system can communicate via blutooth currently
 
 
         return root;
